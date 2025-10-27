@@ -30,6 +30,3 @@ status VARCHAR(20) NOT NULL DEFAULT 'COMPLETED',
 created_at TIMESTAMP WITH TIME ZONE DEFAULT now()
 );
 
-
--- Simple indexed columns for performance in queries
-CREATE INDEX IF NOT EXISTS idx_transactions_account_created ON transactions(account_id, created_at);

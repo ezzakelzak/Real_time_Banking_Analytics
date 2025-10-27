@@ -2,15 +2,14 @@
 
 with ranked as (
     select
-        v:id::string            as customer_id,
-        v:first_name::string    as first_name,
-        v:last_name::string     as last_name,
-        v:email::string         as email,
-        v:created_at::timestamp as created_at,
-        current_timestamp       as load_timestamp,
+        id              as customer_id,
+        first_name,
+        last_name,
+        email,
+        created_at,
         row_number() over (
-            partition by v:id::string
-            order by v:created_at desc
+            partition by id
+            order by created_at desc
         ) as rn
     from {{ source('raw', 'customers') }}
 )
@@ -20,7 +19,6 @@ select
     first_name,
     last_name,
     email,
-    created_at,
-    load_timestamp
+    created_at
 from ranked
 where rn = 1
